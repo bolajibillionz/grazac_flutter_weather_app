@@ -5,7 +5,7 @@ const String BASE_URL = 'https://api.openweathermap.org/data/2.5/weather?';
 
 class ApiEndpoints {
   static String getWeatherByLatLong(
-      {required String lat, required String long, required String key}) {
+      {required double lat, required double long, required String key}) {
     return '${BASE_URL}lat=$lat&lon=$long&appid=$key';
   }
 
