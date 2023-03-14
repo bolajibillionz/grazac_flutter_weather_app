@@ -1,6 +1,11 @@
 import '../services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:grazac_weather_app/services/key.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:grazac_weather_app/services/network.dart';
+import 'package:grazac_weather_app/services/api_endpoints.dart';
+import 'package:grazac_weather_app/screens/location_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -18,7 +23,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Center(
+        child: SpinKitFadingFour(
+          color: Colors.white,
+          size: 100.0,
+        ),
+      ),
       // body: Center(
       //   child: ElevatedButton(
       //     onPressed: () {
@@ -31,8 +41,20 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  void getLocationData() {
+  void getLocationData() async {
     Location location = Location();
-    var newLocation = location.getLocation();
+    var newLocation = await location.getCurrentLocation();
+    print(location.latitude);
+    print(location.longitude);
+    GetWeatherService getWeather = GetWeatherService(
+        endPoint: ApiEndpoints.getWeatherByLatLong(
+            lat: location.latitude, long: location.longitude, key: apiKey));
+    var response = await getWeather.getData();
+    print(response);
+    print(response['coord']);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationScreen();
+    }));
   }
 }
