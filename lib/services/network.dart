@@ -11,9 +11,7 @@ class GetWeatherService {
     print('my first api call');
     try {
       var response = await http.get(url);
-      print(response.body);
-      print('this is my first repsonse');
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
         return result;

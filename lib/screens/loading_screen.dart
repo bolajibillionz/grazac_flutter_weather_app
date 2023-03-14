@@ -50,11 +50,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
         endPoint: ApiEndpoints.getWeatherByLatLong(
             lat: location.latitude, long: location.longitude, key: apiKey));
     var response = await getWeather.getData();
-    print(response);
-    print(response['coord']);
+    
+    // weather[0].main
+    // name
+    // weather[0].description
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LocationScreen();
+      return LocationScreen(locationWeather: response,);
     }));
   }
 }
